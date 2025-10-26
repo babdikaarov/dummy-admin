@@ -5,8 +5,10 @@ import dataProvider from "./dataProvider";
 import LoginPage from "./LoginPage";
 import { UserList, UserCreate, UserEdit } from "./users";
 import { AdminList, AdminCreate, AdminEdit } from "./admins";
+import { ContactEdit } from "./contacts";
 import PeopleIcon from "@mui/icons-material/People";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import Dashboard from "./Doashboard";
 
 export const App = () => (
@@ -35,6 +37,12 @@ export const App = () => (
           edit={AdminEdit} // Everyone can access their own edit page (with restriction logic inside)
           icon={AdminPanelSettingsIcon}
           options={{ label: "Admins" }}
+        />
+        <Resource
+          name="contacts"
+          edit={ContactEdit}
+          icon={SupportAgentIcon}
+          options={{ label: "Contacts" }}
         />
       </>
     )}

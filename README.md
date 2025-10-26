@@ -1,4 +1,4 @@
-# ololo-gate-admin
+# ololo_smart_admin
 
 ## Installation
 

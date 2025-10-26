@@ -146,18 +146,8 @@ export const AdminCreate = () => {
 export const AdminEdit = () => {
   const { id } = useParams();
   const { permissions } = usePermissions();
-  const notify = useNotify();
-  const refresh = useRefresh();
-  const redirect = useRedirect();
   const userId = localStorage.getItem("id");
-  const onSuccess = () => {
-    notify("Admin password updated successfully", { type: "success" });
-    redirect("/admins");
-    refresh();
-  };
-  const onError = (error: any) => {
-    notify(error.message || "Error updating admin", { type: "error" });
-  };
+
   const canEdit = id === userId || permissions === "super";
 
   if (!canEdit) {
@@ -171,7 +161,7 @@ export const AdminEdit = () => {
   }
 
   return (
-    <Edit mutationOptions={{ onSuccess, onError }} title={<AdminTitle />}>
+    <Edit title={<AdminTitle />} mutationMode="pessimistic">
       <SimpleForm
         toolbar={
           <FormToolbarWithCancel
@@ -189,8 +179,27 @@ export const AdminEdit = () => {
             maxWidth: 500,
           }}
         >
-          <TextField source="username" label="Admin name" />
-          <TextField source="role" label="Role" />
+          <TextInput
+            source="username"
+            label="Update Username"
+            validate={[required()]}
+            fullWidth
+          />
+          {permissions === "super" ? (
+            <SelectInput
+              source="role"
+              label="Role"
+              choices={[
+                { id: "super", name: "Super Admin" },
+                { id: "regular", name: "Regular Admin" },
+              ]}
+              validate={[required()]}
+              fullWidth
+            />
+          ) : (
+            <TextField source="role" label="Role" />
+          )}
+
           <Typography
             variant="body2"
             color="text.secondary"
@@ -202,7 +211,7 @@ export const AdminEdit = () => {
             source="password"
             label="New Password"
             type="password"
-            validate={[required()]}
+            autoComplete="off"
             fullWidth
           />
         </Box>
