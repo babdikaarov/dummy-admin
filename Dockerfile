@@ -8,19 +8,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy source code
-COPY . .
-
-# Build arguments
-ARG VITE_API_BASE_URL
-ARG VITE_API_VERSION
-
-# Set environment variables for build
-ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
-ENV VITE_API_VERSION=${VITE_API_VERSION}
-
-# Build the project
-RUN npm run build
+# Copy pre-built dist directory
+COPY dist ./dist
 
 # Expose port 4173
 EXPOSE 4173
@@ -29,4 +18,4 @@ EXPOSE 4173
 ENV NODE_ENV=production
 
 # Start the application
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "server"]
